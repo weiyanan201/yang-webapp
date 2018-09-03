@@ -30,6 +30,7 @@
     "file-loader": "1.1.5",
     "fs-extra": "3.0.1",
     "html-webpack-plugin": "2.29.0",
+    "immutable": "^3.8.2",
     "jest": "20.0.4",
     "mockjs": "^1.0.1-beta3",
     "object-assign": "4.1.1",
@@ -116,6 +117,6 @@
     "less": "^3.5.3",
     "less-loader": "^4.1.0"
   },
-  "homepage":".",
+  "homepage": ".",
   "proxy": "http://localhost:7300/mock/5b5d3dbb1251f94c61722b88"
 }

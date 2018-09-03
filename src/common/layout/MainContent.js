@@ -23,10 +23,11 @@ class MainContent extends React.Component{
                 <Content className={style.content}>
                     <div className={style.contentDiv}>
                         <Switch>
-                            <Route path="/table/groups" exact component={GroupList}/>
-                            <Route path="/table/groups/:groupId" exact component={TableList}/>
-                            <Route path="/table/groups/:groupId/:tableId" exact component={TableInfo}/>
-                            <Route path="/table/addTable" exact component={AddTable}/>
+                            {/*<Route path="/table/groups" exact component={GroupList}/>*/}
+                            {/*<Route path="/table/groups/:groupId" exact component={TableList}/>*/}
+                            {/*<Route path="/table/groups/:groupId/:tableId" exact component={TableInfo}/>*/}
+                            {/*<Route path="/table
+                            /addTable" exact component={AddTable}/>*/}
                         </Switch>
                     </div>
                 </Content>

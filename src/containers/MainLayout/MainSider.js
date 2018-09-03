@@ -19,7 +19,7 @@ const SubMenu = Menu.SubMenu;
 const Item = Menu.Item;
 
 let menuItem = null;
-let routeToId = []
+let routeToId = [];
 
 @withRouter
 @connect(
@@ -113,7 +113,6 @@ class MainSider extends React.Component {
                 selectedKeys:[keyPath[0]]
             })
         }
-
     }
 
     onOpenChange(openKeys){
