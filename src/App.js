@@ -12,7 +12,6 @@ const App = () => (
     <Router>
         <Provider store={store}>
             <Switch>
-                {/*<PrivateRoute component={MainLayout} />*/}
                 <Route path="/login" component={Login}/>
                 <PrivateRoute path="/" component={MainLayout} />
             </Switch>
@@ -45,7 +44,7 @@ class About extends Component{
 }
 
 class User extends Component{
-    
+
     componentDidMount(){
         console.log(this.props);
     }
