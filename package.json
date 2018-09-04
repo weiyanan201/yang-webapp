@@ -45,6 +45,7 @@
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.0",
+    "redux-immutable": "^4.0.0",
     "redux-thunk": "^2.2.0",
     "resolve": "1.6.0",
     "style-loader": "0.19.0",
@@ -118,5 +119,5 @@
     "less-loader": "^4.1.0"
   },
   "homepage": ".",
-  "proxy": "http://localhost:7300/mock/5b5d3dbb1251f94c61722b88"
+  "proxy": "http://localhost:8081"
 }

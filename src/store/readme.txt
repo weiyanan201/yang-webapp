@@ -1,0 +1,3 @@
+项目store文件
+
+所有状态使用immutable框架
