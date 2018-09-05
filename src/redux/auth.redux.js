@@ -28,7 +28,7 @@ export default (state = defaultState, action) => {
 export const actions = {
     login: () => {
         return (dispatch) => {
-            axios.get("/login")
+            axios.get("/login?userName=wei&password=123")
                 .then(res => {
                     dispatch({type: LOGIN, result: true})
                 })
