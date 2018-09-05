@@ -14,7 +14,6 @@ import style from './style.less';
 class MainLayout extends Component {
 
     render() {
-        console.log(this.props.userName);
         return (
             <Layout >
                 <Button onClick={this.props.logout}>退出</Button>
@@ -30,7 +29,6 @@ class MainLayout extends Component {
 }
 
 const mapState = (state) => {
-    console.log(state.getIn(['auth','userName']));
     return {
         userName: state.getIn(['auth','userName'])
     }
@@ -42,7 +40,7 @@ const mapDispatch = (dispatch) => {
           dispatch(actions.logout());
         },
     }
-}
+};
 
 
 export default connect(mapState,mapDispatch)(MainLayout)

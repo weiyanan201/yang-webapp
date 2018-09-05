@@ -6,9 +6,7 @@ import { Button } from 'antd';
 import  { actions }  from '../../redux/auth.redux';
 
 const Login = (props) => {
-
-    console.log("login");
-    if (!props.hasLogin){
+    if (!props.loginStatus){
         return (
             <div>
                 Login
@@ -18,17 +16,14 @@ const Login = (props) => {
     } else{
         return <Redirect to='/'/>
     }
-
 };
 
 const mapState = (state) => ({
-    hasLogin: state.getIn(['auth','hasLogin'])
+    loginStatus: state.getIn(['auth','loginStatus'])
 });
 
 const mapDispatch = (dispatch) => ({
     login(){
-        let user = sessionStorage.getItem("userName");
-        console.log("session user: " ,user);
         dispatch(actions.login());
     },
 });

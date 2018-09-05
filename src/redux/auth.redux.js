@@ -4,7 +4,7 @@ import axios from 'axios';
 const defaultState = fromJS({
     userName: '123',
     role: '',
-    hasLogin: false
+    loginStatus: false
 });
 
 const LOGIN = "LOGIN";
@@ -15,16 +15,11 @@ const HASLOGIN = "HASLOGIN";
 export default (state = defaultState, action) => {
     switch (action.type) {
         case LOGIN :
-            return state.set("hasLogin", true);
+            return state.set("loginStatus", true);
         case LOGOUT:
-            return state.set("hasLogin", false);
+            return state.set("loginStatus", false);
         case HASLOGIN:
-            let hasLogin = false;
-            console.log(action.result.returnCode);
-            if (action.result.returnCode===0){
-                hasLogin = true;
-            }
-            return state.set("hasLogin",hasLogin);
+            return state.set("loginStatus", true);
         default:
             return state;
     }
@@ -35,8 +30,7 @@ export const actions = {
         return (dispatch) => {
             axios.get("/login")
                 .then(res => {
-                    console.log(res.data);
-                    dispatch({type: LOGIN, result: res.data})
+                    dispatch({type: LOGIN, result: true})
                 })
         }
 
@@ -44,9 +38,9 @@ export const actions = {
     logout: () => ({
         type: LOGOUT
     }),
-    hasLogin: ()=>{
+    checkLogin: ()=>{
         return dispatch => {
-            axios.get("/hasLogin")
+            axios.get("/checkLogin")
                 .then(res => {
                     console.log(res.data);
                     dispatch({type: HASLOGIN, result: res.data})

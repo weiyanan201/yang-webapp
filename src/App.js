@@ -4,17 +4,21 @@ import { Provider } from 'react-redux';
 import MainLayout from './layout';
 import Login from './containers/login';
 import PrivateRoute from './components/privateRoute';
-
+import CheckLogin from './components/checkLogin';
 import store from './store';
 
 const App = () => (
 
     <Router>
         <Provider store={store}>
-            <Switch>
-                <Route path="/login" component={Login}/>
-                <PrivateRoute path="/" component={MainLayout} />
-            </Switch>
+            <div>
+                <CheckLogin />
+                <Switch>
+
+                    <Route path="/login" component={Login}/>
+                    <PrivateRoute path="/" component={MainLayout} />
+                </Switch>
+            </div>
         </Provider>
     </Router>
 );
