@@ -9,7 +9,7 @@ const baseUrl = host;
 axios.interceptors.request.use((config) => {
     config.headers['X-Requested-With'] = 'XMLHttpRequest';
     return config
-})
+});
 
 // axios.interceptors.request.use(function (config) {
 //     console.log("axios.interceptors.request.use");
@@ -46,10 +46,6 @@ function packPromise(options){
                 if (location){
                     window.location = location;
                 }
-                // Modal.error({
-                //     title: "错误提示",
-                //     content: "会话失效，请重新登录",
-                // });
             }else{
                 Modal.error({
                     title: "错误提示",
@@ -61,27 +57,30 @@ function packPromise(options){
     });
 }
 
-export default class Axios {
-
-     static get(url,params={}) {
+const Axios = {
+    /**
+     *
+     * @param url
+     * @param params
+     * @return {Promise<any>}
+     */
+    get(url,params={}) {
         let options = {
             url:baseUrl+url,
             method:'get',
             params:{...params}
         };
         return packPromise(options);
-    }
-
-    static post(url,data={}){
+    },
+    post(url,data={}){
         let options = {
             url:baseUrl+url,
             method:'post',
             data:qs.stringify(data),
         };
         return packPromise(options);
-    }
-
-    static postByJson(url,data={}){
+    },
+    postByJson(url,data={}){
         let header = {'Content-Type': 'application/json;charset=utf-8'};
         let options = {
             url:baseUrl+url,
@@ -90,8 +89,10 @@ export default class Axios {
             headers:header
         };
         return packPromise(options);
-    }
-}
+    },
+};
+
+export default Axios ;
 
 
 

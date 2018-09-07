@@ -1,5 +1,5 @@
 import {fromJS} from 'immutable';
-import axios from 'axios';
+import { axios } from '../util';
 
 const defaultState = fromJS({
     userName: '123',
@@ -9,7 +9,7 @@ const defaultState = fromJS({
 
 const LOGIN = "LOGIN";
 const LOGOUT = "LOGOUT";
-const HASLOGIN = "HASLOGIN";
+const CHECK_LOGIN = "CHECK_LOGIN";
 
 
 export default (state = defaultState, action) => {
@@ -18,8 +18,8 @@ export default (state = defaultState, action) => {
             return state.set("loginStatus", true);
         case LOGOUT:
             return state.set("loginStatus", false);
-        case HASLOGIN:
-            return state.set("loginStatus", true);
+        case CHECK_LOGIN:
+            return state.set("loginStatus", action.result.data);
         default:
             return state;
     }
@@ -28,12 +28,12 @@ export default (state = defaultState, action) => {
 export const actions = {
     login: () => {
         return (dispatch) => {
-            axios.get("/login?userName=wei&password=123")
+            axios.get("/login",{userName:'wei',password:'123'})
                 .then(res => {
+                    console.log(res);
                     dispatch({type: LOGIN, result: true})
                 })
         }
-
     },
     logout: () => ({
         type: LOGOUT
@@ -43,7 +43,7 @@ export const actions = {
             axios.get("/checkLogin")
                 .then(res => {
                     console.log(res.data);
-                    dispatch({type: HASLOGIN, result: res.data})
+                    dispatch({type: CHECK_LOGIN, result: res.data})
                 })
         }
     }
