@@ -5,8 +5,7 @@ import util from "../util/util";
 const defaultState = fromJS({
     userName: '123',
     role: '',
-    loginStatus: false,
-    validMsg:''
+    loginStatus: false
 });
 
 const LOGIN = "LOGIN";
@@ -17,46 +16,28 @@ const CHECK_LOGIN = "CHECK_LOGIN";
 export default (state = defaultState, action) => {
     switch (action.type) {
         case LOGIN :
-            const data = action.payload;
-            const msg = data.data.msg;
-            let status = false;
-            if (util.isEmpty(msg)){
-                status = true;
-            }
-            return state.merge({
-                loginStatus: status,
-                validMsg: msg
-            });
+            return state.set("loginStatus",true);
         case LOGOUT:
             return state.set("loginStatus", false);
         case CHECK_LOGIN:
-            return state.set("loginStatus", action.result.data);
+            console.log("change");
+            return state.set("loginStatus", action.payload);
         default:
             return state;
     }
 }
 
 export const actions = {
-    login: (userName,password) => {
-        return (dispatch) => {
-            axios.post("/login",{userName:userName,password:password})
-                .then(res => {
-                    dispatch({type: LOGIN, payload:res.data})
-                })
-        }
-    },
+    loginSuccess: () => ({
+        type: LOGIN
+    }),
     logout: () => ({
         type: LOGOUT
     }),
-    checkLogin: ()=>{
-        return dispatch => {
-            axios.get("/checkLogin")
-                .then(res => {
-                    console.log(res.data);
-                    dispatch({type: CHECK_LOGIN, result: res.data})
-                })
-        }
-    }
+    checkLogin: (loginStatus)=>({
+        type: CHECK_LOGIN,
+        payload: loginStatus
+    })
 };
 
 
