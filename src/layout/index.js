@@ -13,8 +13,41 @@ import style from './style.less';
 
 class MainLayout extends Component {
 
+
+    constructor(props){
+        super(props);
+        console.log("constructor");
+    }
+
+    componentWillMount(){
+        console.log("componentWillMount");
+    }
+
+    componentDidMount(){
+        console.log("componentDidMount");
+    }
+
+    componentWillReceiveProps(){
+        console.log("componentWillReceiveProps");
+    }
+
+    shouldComponentUpdate(){
+        console.log("shouldComponentUpdate");
+        return true;
+    }
+
+    componentWillUpdata(){
+        console.log("componentWillUpdata");
+    }
+
+    componentDidUpdate(){
+        console.log("componentDidUpdate");
+    }
+    
     render() {
+        console.log("render");
         return (
+            
             <Layout >
                 <Button onClick={this.props.logout}>退出</Button>
                 <MainSider />
