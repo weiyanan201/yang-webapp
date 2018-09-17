@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import MainLayout from './layout';
 import Login from './containers/login';
 import PrivateRoute from './components/privateRoute';
-import CheckLogin from './components/checkLogin';
 import store from './store';
 
 const App = () => (
@@ -12,10 +11,9 @@ const App = () => (
     <Router>
         <Provider store={store}>
             <div>
-                <CheckLogin />
                 <Switch>
                     <Route path="/login" component={Login}/>
-                    <PrivateRoute path="/" component={MainLayout} />
+                    <Route path="/" component={MainLayout} />
                 </Switch>
             </div>
         </Provider>

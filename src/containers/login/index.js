@@ -9,17 +9,12 @@ import axios from '../../util/axios'
 
 const FormItem = Form.Item;
 
-@connect(
-    state => state.toObject('auth'),
-    {}
-)
+
 class Login extends Component {
 
     constructor(props){
         super(props);
         console.log(this.props);
-        console.log(this.props.auth.get('loginStatus'));
-
     }
 
     handleSubmit = () => {
@@ -30,7 +25,7 @@ class Login extends Component {
                 res.then(res=>{
                     const data = res.data.data;
                     if (data.hasOwnProperty('token')){
-                        this.props.loginSuccess();
+                        // this.props.loginSuccess();
                     } else{
                         //提醒错误信息
                         _form.setFields({
@@ -46,11 +41,11 @@ class Login extends Component {
     };
 
     render() {
-        if (!this.props.loginStatus) {
+
             const {getFieldDecorator} = this.props.form;
             return (
                 <div>
-                    Login
+                    Login2222
                     <Form className={style["login-form"]}>
                         <FormItem>
                             {getFieldDecorator('userName', {
@@ -77,9 +72,7 @@ class Login extends Component {
                     </Form>
                 </div>
             )
-        } else {
-            return <Redirect to='/'/>
-        }
+
     }
 
 }
@@ -87,17 +80,3 @@ class Login extends Component {
 const LoginForm = Form.create()(Login);
 
 export default LoginForm
-
-const mapState = (state) => ({
-    loginStatus: state.getIn(['auth', 'loginStatus']),
-});
-
-const mapDispatch = (dispatch) => ({
-    loginSuccess() {
-        dispatch(actions.loginSuccess())
-    },
-});
-
-
-
-// export default connect(mapState, mapDispatch)(LoginForm);
