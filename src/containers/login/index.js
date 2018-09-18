@@ -1,15 +1,10 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {Redirect} from 'react-router-dom';
-import {Button, Form, Icon, Input} from 'antd';
-
-import {actions} from '../../redux/auth.redux';
+import { Redirect } from 'react-router-dom';
+import { Button, Form, Icon, Input} from 'antd';
 import style from './style.less';
 import axios from '../../util/axios'
 
 const FormItem = Form.Item;
-
-
 class Login extends Component {
 
     constructor(props){
@@ -25,7 +20,8 @@ class Login extends Component {
                 res.then(res=>{
                     const data = res.data.data;
                     if (data.hasOwnProperty('token')){
-                        // this.props.loginSuccess();
+                        // 登录成功跳转首页
+                        window.location = "/";
                     } else{
                         //提醒错误信息
                         _form.setFields({
@@ -41,7 +37,6 @@ class Login extends Component {
     };
 
     render() {
-
             const {getFieldDecorator} = this.props.form;
             return (
                 <div>
@@ -72,9 +67,7 @@ class Login extends Component {
                     </Form>
                 </div>
             )
-
     }
-
 }
 
 const LoginForm = Form.create()(Login);
