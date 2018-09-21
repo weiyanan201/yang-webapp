@@ -47,7 +47,6 @@ class MainLayout extends Component {
     render() {
         console.log("render");
         return (
-            
             <Layout >
                 <Button onClick={this.props.logout}>退出</Button>
                 <MainSider />

@@ -3,7 +3,7 @@ import { axios } from '../util';
 import util from "../util/util";
 
 const defaultState = fromJS({
-    userName: '123',
+    userName: '',
     role: '',
     loginStatus: false
 });

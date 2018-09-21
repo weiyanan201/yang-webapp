@@ -1,7 +1,6 @@
-import config from '../util/config'
-const roles = config.TenantType;
+import { USER_TYPE } from './constants';
 
-const menus=[
+export const menus=[
     {
         "id": 5,
         "pid": -1,
@@ -9,7 +8,7 @@ const menus=[
         "name": "表管理",
         "route": "",
         "bread": "",
-        "roles":[roles.PLATFORM,roles.GLOBAL_ANALYST,roles.GLOBAL_DEVELOPER,roles.GROUP_USER]
+        "roles":[USER_TYPE.ADMIN,USER_TYPE.USER]
     }, {
         "id": 6,
         "pid": 5,
@@ -17,7 +16,7 @@ const menus=[
         "name": "表信息",
         "route": "/table/groups",
         "bread": "group列表",
-        "roles":[roles.PLATFORM,roles.GLOBAL_ANALYST,roles.GLOBAL_DEVELOPER,roles.GROUP_USER]
+        "roles":[USER_TYPE.ADMIN,USER_TYPE.USER]
     }, {
         "id": 7,
         "pid": 5,
@@ -25,7 +24,6 @@ const menus=[
         "name": "新建表",
         "route": "/table/addTable",
         "bread": "新建表",
-        "roles":[roles.PLATFORM,roles.GLOBAL_ANALYST,roles.GLOBAL_DEVELOPER,roles.GROUP_USER]
+        "roles":[USER_TYPE.ADMIN,USER_TYPE.USER]
     }
 ];
-export default menus;
