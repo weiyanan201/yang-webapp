@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { Layout, Button } from 'antd' ;
+import { Layout } from 'antd' ;
+
 import MainSider from './MainSider'
 import MainHeader from './MainHeader'
 import MainContent from './MainContent'
@@ -11,47 +12,51 @@ import { actions } from '../redux/auth.redux'
 import style from './style.less';
 
 
+@connect(
+    state=>state.get("auth").toJS(),
+    { getUserInfo:actions.getUserInfo }
+)
 class MainLayout extends Component {
 
 
     constructor(props){
         super(props);
-        console.log("constructor");
+        console.log("MainLayout.constructor");
     }
 
     componentWillMount(){
-        console.log("componentWillMount");
+        console.log("MainLayout.componentWillMount");
+        this.props.getUserInfo();
     }
 
     componentDidMount(){
-        console.log("componentDidMount");
+        console.log("MainLayout.componentDidMount");
     }
 
     componentWillReceiveProps(){
-        console.log("componentWillReceiveProps");
+        console.log("MainLayout.componentWillReceiveProps");
     }
 
     shouldComponentUpdate(){
-        console.log("shouldComponentUpdate");
+        console.log("MainLayout.shouldComponentUpdate");
         return true;
     }
 
     componentWillUpdata(){
-        console.log("componentWillUpdata");
+        console.log("MainLayout.componentWillUpdata");
     }
 
     componentDidUpdate(){
-        console.log("componentDidUpdate");
+        console.log("MainLayout.componentDidUpdate");
     }
-    
+
     render() {
-        console.log("render");
+        console.log("MainLayout.render");
         return (
             <Layout >
-                <Button onClick={this.props.logout}>退出</Button>
                 <MainSider />
                 <Layout className={style.layoutRight}>
-                    <MainHeader />
+                    <MainHeader userName={this.props.userName}/>
                     <MainBreadcrumb/>
                     <MainContent/>
                 </Layout>
@@ -60,20 +65,5 @@ class MainLayout extends Component {
     }
 }
 
-const mapState = (state) => {
-    return {
-        userName: state.getIn(['auth','userName'])
-    }
-};
 
-const mapDispatch = (dispatch) => {
-    return {
-        logout(){
-          dispatch(actions.logout());
-        },
-    }
-};
-
-
-export default connect(mapState,mapDispatch)(MainLayout)
-
+export default MainLayout

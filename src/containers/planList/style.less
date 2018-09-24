@@ -1,0 +1,83 @@
+
+.search-wrapper{
+  background-color: #FFFFFF;
+  height: 200px;
+  //margin: 10px;
+
+}
+
+
+.search-item{
+
+  position: relative;
+  font-size: 14px;
+  color: #999;
+
+  display: table;
+  content: " ";
+
+  h3{
+    position: absolute;
+    top: 15px;
+    left: 0;
+    font-size: 14px;
+    margin: 0;
+  }
+
+  ul{
+    padding-left: 75px;
+    margin-bottom: 0;
+    list-style:none; /* 将默认的列表符号去掉 */
+  }
+  li{
+    padding: 3px 18px;
+    border: 1px solid #eeeeee;
+    border-radius: 15px;
+    margin-right: 20px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    float: left!important;
+    &:active{
+      border: 1px solid #13dad3;
+      background-color: #13dad3;
+      color: #fff;
+    }
+  }
+
+  .clearfix {
+    overflow: auto;
+    zoom: 1;
+  }
+
+}
+
+
+.testRadio {
+  padding-left: 45px;
+  margin-bottom: 0;
+
+
+  :global{
+
+    .ant-radio-inner{
+      display: none;
+    }
+    .ant-radio-wrapper{
+      padding: 3px 18px;
+      border: 1px solid #eeeeee;
+      border-radius: 15px;
+      margin-right: 20px;
+      margin-top: 8px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      float: left!important;
+    }
+
+    .ant-radio-wrapper-checked{
+      border: 1px solid #13dad3;
+      background-color: #13dad3;
+      color: #fff;
+    }
+  }
+}
