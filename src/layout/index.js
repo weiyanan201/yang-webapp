@@ -57,7 +57,7 @@ class MainLayout extends Component {
                 <MainSider />
                 <Layout className={style.layoutRight}>
                     <MainHeader userName={this.props.userName}/>
-                    <MainBreadcrumb/>
+                    <MainBreadcrumb />
                     <MainContent/>
                 </Layout>
             </Layout>

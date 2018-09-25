@@ -29,10 +29,10 @@ class PlanList extends Component{
         return(
             <div>
                 {/*search*/}
-                <Search className={style["search-wrapper"]} />
+                <Search className={style.searchWrapper} />
 
                 {/*content*/}
-                <div>
+                <div className={style.listWrapper}>
                     列表区域
                 </div>
             </div>

@@ -4,9 +4,6 @@ import { Radio } from 'antd';
 
 import style from '../style.less';
 
-import { values as valuesDecorator } from 'redux-form/immutable';
-import { Field, reduxForm } from 'redux-form/immutable'; // <--- immutable import
-
 import { SearchWrapper, ConditionWrapper, LabelWrapper,RadioWrapper, RadioItem } from '../style';
 
 const RadioGroup = Radio.Group;
@@ -36,19 +33,24 @@ class Search extends Component {
     render(){
         return (
             <div {...this.props}>
-                产品
-                <RadioGroup name="radiogroup"
-                            defaultValue={1}
-                            className={style.testRadio}
-                            onChange={this.onChange}
-                            value={this.state.value}
-                >
-                    <Radio value={1}>全部</Radio>
-                    <Radio value={2}>常规课</Radio>
-                    <Radio value={3}>公开课</Radio>
-                    <Radio value={4}>假期课</Radio>
-                    <Radio value={5}>特色短期班</Radio>
-                </RadioGroup>
+                <div className={style.searchContainer}>
+                    <div>
+                        <span className={style.searchLabel}>产品</span>
+                        <RadioGroup name="radiogroup"
+                                    defaultValue={1}
+                                    className={style.testRadio}
+                                    onChange={this.onChange}
+                                    value={this.state.value}
+                        >
+                            <Radio value={1}>全部</Radio>
+                            <Radio value={2}>常规课</Radio>
+                            <Radio value={3}>公开课</Radio>
+                            <Radio value={4}>假期课</Radio>
+                            <Radio value={5}>特色短期班</Radio>
+                        </RadioGroup>
+                    </div>
+
+                </div>
             </div>
         );
     }

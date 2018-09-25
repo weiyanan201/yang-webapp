@@ -19,16 +19,14 @@ class MainContent extends React.Component{
 
     render(){
         return(
-            <div >
-                <Content className={style.contentWrapper}>
-                    <div >
-                        <Switch>
-                            <Route path="/plan/list" exact component={PlanList}/>
-                            {/*<Route path="/table/groups/:groupId" exact component={TableList}/>*/}
-                            {/*<Route path="/table/groups/:groupId/:tableId" exact component={TableInfo}/>*/}
-                            <Route path="/test" exact component={Test}/>
-                        </Switch>
-                    </div>
+            <div className={style.contentWrapper}>
+                <Content>
+                    <Switch>
+                        <Route path="/plan/list" exact component={PlanList}/>
+                        {/*<Route path="/table/groups/:groupId" exact component={TableList}/>*/}
+                        {/*<Route path="/table/groups/:groupId/:tableId" exact component={TableInfo}/>*/}
+                        <Route path="/test" exact component={Test}/>
+                    </Switch>
                 </Content>
             </div>
         );
