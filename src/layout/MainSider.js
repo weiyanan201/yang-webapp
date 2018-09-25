@@ -1,4 +1,4 @@
-import React ,{ Component } from 'react';
+import React ,{ PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom'
@@ -17,10 +17,10 @@ let routeToId = []
  */
 @withRouter
 @connect(
-    state=>state.get("auth").toJS(),
+    state=>state.get("auth").toObject(),
     {}
 )
-class MainSider extends Component {
+class MainSider extends PureComponent {
 
     constructor() {
         super();
@@ -34,6 +34,12 @@ class MainSider extends Component {
         this.onClick = this.onClick.bind(this);
         this.onOpenChange = this.onOpenChange.bind(this)
     }
+
+    componentDidUpdate(){
+        console.log("MainSider.componentDidUpdate");
+    }
+
+
 
     componentWillUpdate(nextProps) {
         if (!is(this.props.menus, nextProps.menus)){

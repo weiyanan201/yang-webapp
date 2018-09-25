@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{ PureComponent,Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter} from 'react-router-dom';
 import {Breadcrumb} from 'antd';
@@ -10,10 +10,10 @@ const routeMap = new Map();
 
 @withRouter
 @connect(
-    state=>({auth:state.get('auth').toJS(),globalStatus:state.get('globalStatus').toJS()}),
+    state=>({auth:state.get('auth').toObject(),globalStatus:state.get('globalStatus').toObject()}),
     {}
 )
-class MainBreadcrumb extends React.Component{
+class MainBreadcrumb extends Component{
 
     componentWillMount(){
         console.log(this.props);
@@ -25,7 +25,21 @@ class MainBreadcrumb extends React.Component{
         }
     }
 
+    componentDidUpdate(){
+        console.log("MainBreadcrumb.componentDidUpdate",this.props);
+    }
+
+
+    shouldComponentUpdate(nextProps, nextState){
+        if (this.props.location.pathname===nextProps.location.pathname) {
+            return false;
+        }
+        return true;
+    }
+
+
     render() {
+        console.log("MainBreadcrumb.render");
         const url = this.props.location.pathname;
         let tempUrl = [];
         let tempPrx = '/';

@@ -1,52 +1,107 @@
-import React , { Component } from 'react';
+import React , { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import axios from '../../../util/axios';
+import { actions } from '../../../redux/plan.redux';
 import { Radio } from 'antd';
+
+import { tagTheme,tagSubject,tagAge,tagCourse,tagScene,tagAll } from '../../../config';
 
 import style from '../style.less';
 
-import { SearchWrapper, ConditionWrapper, LabelWrapper,RadioWrapper, RadioItem } from '../style';
-
 const RadioGroup = Radio.Group;
 
-class Search extends Component {
 
-    componentWillMount(){
-        console.log("Search.willMount");
-        axios.get("/plan/getTag")
-            .then(res=>{
-                console.log(res);
-            })
 
-        this.state = {
-            value:1
-        }
-    }
 
-    onChange = (e) => {
-        console.log('radio checked', e.target.value);
-        this.setState({
-            value: e.target.value,
-        });
-    }
-
+@connect(
+    state=>state.getIn(["plan","tags"]).toObject()
+    ,{changeTag : actions.changeTag}
+)
+class Search extends PureComponent {
 
     render(){
+        const { courseValue,sceneValue,themeValue,ageValue,subjectValue,changeTag } = this.props;
         return (
             <div {...this.props}>
                 <div className={style.searchContainer}>
                     <div>
-                        <span className={style.searchLabel}>产品</span>
+                        <span className={style.searchLabel}>课程名称</span>
                         <RadioGroup name="radiogroup"
-                                    defaultValue={1}
+                                    defaultValue={-1}
                                     className={style.testRadio}
-                                    onChange={this.onChange}
-                                    value={this.state.value}
+                                    onChange={(e)=>{changeTag("courseValue",e.target.value)}}
+                                    value={courseValue}
                         >
-                            <Radio value={1}>全部</Radio>
-                            <Radio value={2}>常规课</Radio>
-                            <Radio value={3}>公开课</Radio>
-                            <Radio value={4}>假期课</Radio>
-                            <Radio value={5}>特色短期班</Radio>
+                            <Radio value={tagAll.key}>{tagAll.name}</Radio>
+                            <Radio value={tagCourse.construct.key}>{tagCourse.construct.name}</Radio>
+                            <Radio value={tagCourse.science.key}>{tagCourse.science.name}</Radio>
+                        </RadioGroup>
+                    </div>
+
+                    <div>
+                        <span className={style.searchLabel}>场景</span>
+                        <RadioGroup name="radiogroup"
+                                    defaultValue={-1}
+                                    className={style.testRadio}
+                                    onChange={(e)=>{changeTag("sceneValue",e.target.value)}}
+                                    value={sceneValue}
+                        >
+                            <Radio value={tagAll.key}>{tagAll.name}</Radio>
+                            <Radio value={tagScene.zhuanxiangshi.key}>{tagScene.zhuanxiangshi.name}</Radio>
+                            <Radio value={tagScene.changguijiaoshi.key}>{tagScene.changguijiaoshi.name}</Radio>
+                            <Radio value={tagScene.qujiaohuodong.key}>{tagScene.qujiaohuodong.name}</Radio>
+                            <Radio value={tagScene.huwaihuodong.key}>{tagScene.huwaihuodong.name}</Radio>
+                        </RadioGroup>
+                    </div>
+
+                    <div>
+                        <span className={style.searchLabel}>主题</span>
+                        <RadioGroup name="radiogroup"
+                                    defaultValue={-1}
+                                    className={style.testRadio}
+                                    onChange={(e)=>{changeTag("themeValue",e.target.value)}}
+                                    value={themeValue}
+                        >
+                            <Radio value={tagAll.key}>{tagAll.name}</Radio>
+                            <Radio value={tagTheme.ocean.key}>{tagTheme.ocean.name}</Radio>
+                            <Radio value={tagTheme.body.key}>{tagTheme.body.name}</Radio>
+                            <Radio value={tagTheme.supermarket.key}>{tagTheme.supermarket.name}</Radio>
+                            <Radio value={tagTheme.volcano.key}>{tagTheme.volcano.name}</Radio>
+                            <Radio value={tagTheme.landform.key}>{tagTheme.landform.name}</Radio>
+                            <Radio value={tagTheme.airport.key}>{tagTheme.airport.name}</Radio>
+                        </RadioGroup>
+                    </div>
+
+                    <div>
+                        <span className={style.searchLabel}>年龄段</span>
+                        <RadioGroup name="radiogroup"
+                                    defaultValue={-1}
+                                    className={style.testRadio}
+                                    onChange={(e)=>{changeTag("ageValue",e.target.value)}}
+                                    value={ageValue}
+                        >
+                            <Radio value={tagAll.key}>{tagAll.name}</Radio>
+                            <Radio value={tagAge.small.key}>{tagAge.small.name}</Radio>
+                            <Radio value={tagAge.middle.key}>{tagAge.middle.name}</Radio>
+                            <Radio value={tagAge.large.key}>{tagAge.large.name}</Radio>
+                        </RadioGroup>
+                    </div>
+
+
+                    <div>
+                        <span className={style.searchLabel}>重点领域</span>
+                        <RadioGroup name="radiogroup"
+                                    defaultValue={-1}
+                                    className={style.testRadio}
+                                    onChange={(e)=>{changeTag("subjectValue",e.target.value)}}
+                                    value={subjectValue}
+                        >
+                            <Radio value={tagAll.key}>{tagAll.name}</Radio>
+                            <Radio value={tagSubject.life.key}>{tagSubject.life.name}</Radio>
+                            <Radio value={tagSubject.matter.key}>{tagSubject.matter.name}</Radio>
+                            <Radio value={tagSubject.earth.key}>{tagSubject.earth.name}</Radio>
+                            <Radio value={tagSubject.technology.key}>{tagSubject.technology.name}</Radio>
+                            <Radio value={tagSubject.math.key}>{tagSubject.math.name}</Radio>
                         </RadioGroup>
                     </div>
 

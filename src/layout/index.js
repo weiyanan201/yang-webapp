@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { PureComponent} from 'react';
 import { connect } from 'react-redux';
 import { Layout } from 'antd' ;
 
@@ -13,10 +13,10 @@ import style from './style.less';
 
 
 @connect(
-    state=>state.get("auth").toJS(),
+    state=>state.get("auth").toObject(),
     { getUserInfo:actions.getUserInfo }
 )
-class MainLayout extends Component {
+class MainLayout extends PureComponent {
 
 
     constructor(props){
@@ -37,21 +37,14 @@ class MainLayout extends Component {
         console.log("MainLayout.componentWillReceiveProps");
     }
 
-    shouldComponentUpdate(){
-        console.log("MainLayout.shouldComponentUpdate");
-        return true;
-    }
 
-    componentWillUpdata(){
-        console.log("MainLayout.componentWillUpdata");
-    }
 
     componentDidUpdate(){
-        console.log("MainLayout.componentDidUpdate");
+        console.log("MainLayout.componentDidUpdate",this.props);
     }
 
     render() {
-        console.log("MainLayout.render");
+        console.log("MainLayout.render",this.props);
         return (
             <Layout >
                 <MainSider />
