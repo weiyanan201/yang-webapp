@@ -1,6 +1,5 @@
 import React , { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import axios from '../../../util/axios';
 import { actions } from '../../../redux/plan.redux';
 import { Radio } from 'antd';
 
@@ -10,17 +9,34 @@ import style from '../style.less';
 
 const RadioGroup = Radio.Group;
 
-
-
-
 @connect(
-    state=>state.getIn(["plan","tags"]).toObject()
-    ,{changeTag : actions.changeTag}
+    state=>{
+        return {
+            tags:state.getIn(["plan","tags"]).toObject(),
+            searchValue:state.getIn(["plan","searchValue"])
+        }
+    }
+    ,{
+        changeTag : actions.changeTag,
+        changeSearchValue : actions.changeSearchValue,
+        searchQuery : actions.searchQuery
+    }
 )
 class Search extends PureComponent {
 
     render(){
-        const { courseValue,sceneValue,themeValue,ageValue,subjectValue,changeTag } = this.props;
+
+        const tags = this.props.tags;
+
+        const {
+            courseValue,sceneValue,themeValue,ageValue,subjectValue,
+        } = this.props.tags;
+
+        const {
+            changeTag,
+            searchValue,changeSearchValue,
+            searchQuery,
+        } = this.props;
         return (
             <div {...this.props}>
                 <div className={style.searchContainer}>
@@ -29,7 +45,7 @@ class Search extends PureComponent {
                         <RadioGroup name="radiogroup"
                                     defaultValue={-1}
                                     className={style.testRadio}
-                                    onChange={(e)=>{changeTag("courseValue",e.target.value)}}
+                                    onChange={(e)=>{changeTag("courseValue",e.target.value,searchValue,tags)}}
                                     value={courseValue}
                         >
                             <Radio value={tagAll.key}>{tagAll.name}</Radio>
@@ -43,7 +59,7 @@ class Search extends PureComponent {
                         <RadioGroup name="radiogroup"
                                     defaultValue={-1}
                                     className={style.testRadio}
-                                    onChange={(e)=>{changeTag("sceneValue",e.target.value)}}
+                                    onChange={(e)=>{changeTag("sceneValue",e.target.value,searchValue,tags)}}
                                     value={sceneValue}
                         >
                             <Radio value={tagAll.key}>{tagAll.name}</Radio>
@@ -59,7 +75,7 @@ class Search extends PureComponent {
                         <RadioGroup name="radiogroup"
                                     defaultValue={-1}
                                     className={style.testRadio}
-                                    onChange={(e)=>{changeTag("themeValue",e.target.value)}}
+                                    onChange={(e)=>{changeTag("themeValue",e.target.value,searchValue,tags)}}
                                     value={themeValue}
                         >
                             <Radio value={tagAll.key}>{tagAll.name}</Radio>
@@ -77,7 +93,7 @@ class Search extends PureComponent {
                         <RadioGroup name="radiogroup"
                                     defaultValue={-1}
                                     className={style.testRadio}
-                                    onChange={(e)=>{changeTag("ageValue",e.target.value)}}
+                                    onChange={(e)=>{changeTag("ageValue",e.target.value,searchValue,tags)}}
                                     value={ageValue}
                         >
                             <Radio value={tagAll.key}>{tagAll.name}</Radio>
@@ -93,7 +109,7 @@ class Search extends PureComponent {
                         <RadioGroup name="radiogroup"
                                     defaultValue={-1}
                                     className={style.testRadio}
-                                    onChange={(e)=>{changeTag("subjectValue",e.target.value)}}
+                                    onChange={(e)=>{changeTag("subjectValue",e.target.value,searchValue,tags)}}
                                     value={subjectValue}
                         >
                             <Radio value={tagAll.key}>{tagAll.name}</Radio>
@@ -103,6 +119,18 @@ class Search extends PureComponent {
                             <Radio value={tagSubject.technology.key}>{tagSubject.technology.name}</Radio>
                             <Radio value={tagSubject.math.key}>{tagSubject.math.name}</Radio>
                         </RadioGroup>
+                    </div>
+
+                    <div>
+                        <input type="text"  value={searchValue}
+                               className="form-control"
+                               onChange={(e)=>changeSearchValue(e.target.value)}
+                               placeholder="请输入查询信息" />
+                        <button className="btn back-green"
+                                onClick={()=>searchQuery(searchValue,this.props.tags)}
+                        >
+                            <span className="glyphicon glyphicon-search">查询</span>
+                        </button>
                     </div>
 
                 </div>

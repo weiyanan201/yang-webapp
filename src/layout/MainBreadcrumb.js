@@ -30,14 +30,6 @@ class MainBreadcrumb extends Component{
     }
 
 
-    shouldComponentUpdate(nextProps, nextState){
-        if (this.props.location.pathname===nextProps.location.pathname) {
-            return false;
-        }
-        return true;
-    }
-
-
     render() {
         console.log("MainBreadcrumb.render");
         const url = this.props.location.pathname;

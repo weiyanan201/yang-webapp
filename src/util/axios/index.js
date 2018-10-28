@@ -90,6 +90,17 @@ const Axios = {
         };
         return packPromise(options);
     },
+    postByMultipart(url,data){
+        let header = {'Content-Type':'multipart/form-data'};
+        console.log(data);
+        let options = {
+            url:baseUrl+url,
+            method:'post',
+            data:data,
+            headers:header
+        };
+        return packPromise(options);
+    }
 };
 
 export default Axios ;
