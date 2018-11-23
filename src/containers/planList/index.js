@@ -40,8 +40,11 @@ class PlanList extends PureComponent{
                     align: 'center',
                     render: (text, record) => (
                         <span>
-                            <a onClick={()=>this.modalToggle(true,UPDATE_TITLE,record)}>编辑</a><Divider type="vertical" />
+                            <a onClick={()=>this.modalToggle(true,UPDATE_TITLE,record)}>编辑</a>
+                            <Divider type="vertical" />
                             <a >删除</a>
+                            <Divider type="vertical" />
+                            <a> 下载</a>
                         </span>
                     )
                 }

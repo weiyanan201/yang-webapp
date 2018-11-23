@@ -28,13 +28,7 @@ const theme = {
     base0F: '#cc6633'
 };
 
-class About extends Component{
-
-
-
-
-
-
+class TreeTest extends Component{
 
     render(){
 
@@ -55,7 +49,6 @@ class About extends Component{
         )
 
     }
-
 }
 
-export default About
+export default TreeTest

@@ -39,7 +39,7 @@ const actions = {
         // const newTages = {...tags,[tag]:value}
         // console.log(newTages);
         return dispatch => {
-            axios.postByJson('/plan/searchQuery',{...tags,searchValue,[tag]:value})
+            axios.postByJson('/plan/searchQuery',{...tags,searchValue,[tag]:value })
                 .then(res => {
                     dispatch ({
                         type: TAG_CHANGE,
