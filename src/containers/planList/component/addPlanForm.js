@@ -54,6 +54,8 @@ class AddGroupForm extends Component {
             axios.postByMultipart("/plan/savePlan",formData)
                 .then(res=>{
                     message.success("添加成功!");
+                    this.props.handelSuccess();
+                    console.log("handelSuccess execute ");
                 })
         });
     }
@@ -319,7 +321,8 @@ class AddGroupForm extends Component {
 
 
 AddGroupForm.defaultProps = {
-    formObject:{}
+    formObject:{},
+    handelSuccess:()=>{}
 };
 
 

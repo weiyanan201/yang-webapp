@@ -1,6 +1,7 @@
-import { fromJS, Map,List } from 'immutable';
+import {  Map,List } from 'immutable';
 import { tagAll } from '../config'
 import { axios } from '../util';
+import { PAGE, PAGE_DEFAULT, SIZE, SIZE_DEFAULT} from '../config'
 
 const defaultState = new Map({
     tags: new Map({
@@ -11,7 +12,10 @@ const defaultState = new Map({
         subjectValue: tagAll.key,
     }),
     searchValue:"",
-    tableList:new List()
+    tableList:new List(),
+    total:0,
+    page:PAGE_DEFAULT,
+    size:SIZE_DEFAULT
 })
 
 const TAG_CHANGE = 'TAG_CHANGE';
@@ -26,7 +30,10 @@ export default (state = defaultState, action) => {
         case SEARCH_VALUE_CHANGE:
             return state.set("searchValue",action.payload)
         case SEARCH_QUERY:
-            return state.set("tableList",List(action.payload));
+            return state.merge({
+                "tableList":List(action.payload.list),
+                "total":action.payload.total
+            });
         default:
             return state;
     }
@@ -36,8 +43,6 @@ export default (state = defaultState, action) => {
 const actions = {
     changeTag : (tag,value,searchValue,tags)=>{
 
-        // const newTages = {...tags,[tag]:value}
-        // console.log(newTages);
         return dispatch => {
             axios.postByJson('/plan/searchQuery',{...tags,searchValue,[tag]:value })
                 .then(res => {
@@ -61,9 +66,9 @@ const actions = {
             payload : value
         }
     },
-    searchQuery:(searchValue,tags)=>{
+    searchQuery:(searchValue,tags,page)=>{
         return dispatch => {
-            axios.postByJson('/plan/searchQuery',{...tags,searchValue})
+            axios.postByJson('/plan/searchQuery',{...tags,searchValue,page})
                 .then(res => {
                     dispatch({
                         type : SEARCH_QUERY,

@@ -4,7 +4,10 @@ const USER_TYPE = {
     USER:'USER'
 }
 
-const PAGE_START = "start";
-const PAGE_SIZE = "size";
+const PAGE = "page";
+const PAGE_DEFAULT = 1;
+const SIZE = "size";
+const SIZE_DEFAULT = 20;
 
-export { USER_TYPE ,PAGE_START,PAGE_SIZE}
+
+export { USER_TYPE ,PAGE,SIZE,PAGE_DEFAULT,SIZE_DEFAULT}

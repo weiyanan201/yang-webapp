@@ -8,6 +8,7 @@ import { Route, Switch } from 'react-router-dom'
 
 
 import PlanList from '../containers/planList';
+import HomePage from '../containers/home';
 
 import style from './style.less';
 
@@ -22,6 +23,7 @@ class MainContent extends React.Component{
             <div className={style.contentWrapper}>
                 <Content>
                     <Switch>
+                        <Route path="/" exact component={HomePage}/>
                         <Route path="/plan/list" exact component={PlanList}/>
                         {/*<Route path="/table/groups/:groupId" exact component={TableList}/>*/}
                         {/*<Route path="/table/groups/:groupId/:tableId" exact component={TableInfo}/>*/}

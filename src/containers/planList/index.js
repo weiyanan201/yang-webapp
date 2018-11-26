@@ -1,5 +1,5 @@
 import React,{ PureComponent } from 'react';
-import { Table,Button,Modal, Divider } from 'antd';
+import { Table,Button,Modal, Divider  } from 'antd';
 import { connect } from 'react-redux';
 import { actions } from '../../redux/plan.redux';
 
@@ -7,6 +7,7 @@ import Search from './component/search';
 import AddPlanForm from './component/addPlanForm';
 
 import style from './style.less';
+import {SIZE_DEFAULT} from "../../config";
 
 const NEW_TITLE = "新建教案";
 const UPDATE_TITLE = "修改教案";
@@ -15,6 +16,9 @@ const UPDATE_TITLE = "修改教案";
     state=>{
         return {
             tableList:state.getIn(["plan","tableList"]).toArray(),
+            total:state.getIn(["plan","total"]),
+            tags:state.getIn(["plan","tags"]).toArray(),
+            searchValue:state.getIn(["plan","searchValue"]),
         }
     }
     ,{
@@ -57,7 +61,7 @@ class PlanList extends PureComponent{
 
     componentDidMount(){
         //初始化列表
-        this.props.searchQuery()
+        this.props.searchQuery();
     }
 
     state = {
@@ -65,7 +69,6 @@ class PlanList extends PureComponent{
     };
 
     modalToggle(toggle,title=NEW_TITLE,formObject){
-        console.log(title,formObject);
         this.setState({
             modalVisible:toggle,
             modalTitle:title,
@@ -73,7 +76,18 @@ class PlanList extends PureComponent{
         })
     };
 
+    onChange=(pageNumber)=> {
+        this.props.searchQuery(this.props.searchValue,this.props.tags,pageNumber);
+    };
+
+    //添加、更新之后回调
+    handelSuccess=()=>{
+        this.setState({modalVisible:false});
+        this.props.searchQuery(this.props.searchValue,this.props.tags);
+    };
+
     render(){
+        console.log("search did total ",this.props.total);
         return(
             <div>
                 {/*search*/}
@@ -82,7 +96,16 @@ class PlanList extends PureComponent{
                 {/*content*/}
                 <Button onClick={()=>this.modalToggle(true)}>添加教案</Button>
                 <div className={style.listWrapper}>
-                    <Table columns={this.state.columns} dataSource={this.props.tableList} size="small"/>
+                    <Table columns={this.state.columns}
+                           dataSource={this.props.tableList}
+                           size="small"
+                           pagination={{
+                               total:this.props.total,
+                               pageSize:SIZE_DEFAULT,
+                           }}
+                           total={this.props.total}
+                           onChange={this.onChange}
+                    />
                 </div>
 
                 <div>
@@ -101,7 +124,9 @@ class PlanList extends PureComponent{
                         <AddPlanForm formObject={this.state.formObject}
                                       wrappedComponentRef={(inst) => {
                                           this.addPlanForm = inst;
-                                      }}/>
+                                      }}
+                                     handelSuccess={() => this.handelSuccess()}
+                        />
 
                     </Modal>
                 </div>
