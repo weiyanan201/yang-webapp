@@ -8,6 +8,7 @@ import AddPlanForm from './component/addPlanForm';
 
 import style from './style.less';
 import {SIZE_DEFAULT} from "../../config";
+import axios from "../../util/axios";
 
 const NEW_TITLE = "新建教案";
 const UPDATE_TITLE = "修改教案";
@@ -48,7 +49,7 @@ class PlanList extends PureComponent{
                             <Divider type="vertical" />
                             <a >删除</a>
                             <Divider type="vertical" />
-                            <a> 下载</a>
+                            <a onClick={()=>this.handleDownload(record.id)} > 下载</a>
                         </span>
                     )
                 }
@@ -86,8 +87,21 @@ class PlanList extends PureComponent{
         this.props.searchQuery(this.props.searchValue,this.props.tags);
     };
 
+    //处理下载流程
+    handleDownload=(id)=>{
+        // axios.get("/plan/download",{id:id})
+        //     .then(res=>{
+        //         console.log(res);
+        //     }).catch(error=>{
+        //         console.error(error);
+        //     })
+
+        axios.download();
+
+
+    };
+
     render(){
-        console.log("search did total ",this.props.total);
         return(
             <div>
                 {/*search*/}

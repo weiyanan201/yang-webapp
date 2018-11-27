@@ -1,8 +1,9 @@
-import {Modal} from 'antd';
+import { Modal } from 'antd';
 import axios from 'axios';
 import qs from 'qs';
 
 import host from '../../config/host';
+import util from '../util';
 
 const baseUrl = host;
 
@@ -10,6 +11,37 @@ axios.interceptors.request.use((config) => {
     config.headers['X-Requested-With'] = 'XMLHttpRequest';
     return config
 });
+
+
+// Add a response interceptor
+axios.interceptors.response.use(res=> {
+    console.log(res.headers['content-disposition']);
+    console.log(res.headers['content-type']);
+    // 处理excel文件
+    if (res.headers && (res.headers['content-disposition'] === 'application/x-msdownload' || res.headers['content-type'] === 'download')) {
+        downloadUrl(res.request.responseURL);
+        res.data='';
+        res.headers['content-type'] = 'text/json'
+        return res;
+    }
+    return res;
+}, error => {
+    // Do something with response error
+    return Promise.reject(error.response.data || error.message)
+});
+
+
+
+const downloadUrl = url => {
+    let iframe = document.createElement('iframe')
+    iframe.style.display = 'none'
+    iframe.src = url
+    iframe.onload = function () {
+        document.body.removeChild(iframe)
+    }
+    document.body.appendChild(iframe)
+}
+
 
 // axios.interceptors.request.use(function (config) {
 //     console.log("axios.interceptors.request.use");
@@ -64,6 +96,41 @@ const Axios = {
      * @param params
      * @return {Promise<any>}
      */
+
+    download(){
+        axios({
+            method: 'post',
+            url:baseUrl+'/plan/download',
+            data: qs.stringify({
+                id:2
+            }),
+            responseType: 'blob'
+        }).then(response => {
+            if (!response) {
+                return
+            }
+            let fileName = response.headers.filename;
+            if (util.isEmpty(fileName)){
+                return ;
+            }
+            console.log(response);
+            let url = window.URL.createObjectURL(new Blob([response.data]));
+            let link = document.createElement('a');
+            link.style.display = 'none';
+            link.href = url;
+            link.setAttribute('download',fileName);
+
+            document.body.appendChild(link);
+            link.click()
+        }).catch(err => {
+            var read=new FileReader(); //创建读取器对象FileReader
+            read.readAsText(err);//开始读取文件
+            read.onload=function () {//数据读完会触发onload事件
+                console.log(read.result); //read有个result属性存放这结果，从result获取到数据
+            }
+        })
+    },
+
     get(url,params={}) {
         let options = {
             url:baseUrl+url,

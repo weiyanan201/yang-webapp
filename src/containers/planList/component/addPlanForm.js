@@ -1,7 +1,7 @@
 import React,{ Component } from 'react';
 import { Form, Input, Select, Spin, Upload, Button, Icon, message} from 'antd';
 
-import { tagTheme,tagSubject,tagAge,tagCourse,tagScene,Tags } from '../../../config';
+import {tagTheme, tagSubject, tagAge, tagCourse, tagScene, Tags, UPLOAD_MAX_SIZE_TIP,UPLOAD_MAX_SIZE} from '../../../config';
 
 import axios from '../../../util/axios';
 import util from "../../../util/util";
@@ -33,12 +33,20 @@ class AddGroupForm extends Component {
     handleSubmit = ()=>{
         const { filePlan,fileShow } = this.state;
         const formData = new FormData();
+        let totalSize = 0;
         filePlan.forEach((file) => {
+            console.log(file);
+            totalSize += file.size;
             formData.append('planFile', file);
         });
         fileShow.forEach((file) => {
+            totalSize += file.size;
             formData.append('planShow', file);
         });
+        if (totalSize>UPLOAD_MAX_SIZE){
+            message.error(UPLOAD_MAX_SIZE_TIP);
+            return ;
+        }
 
         this.props.form.validateFields((error, values) => {
             if (error) {
@@ -50,20 +58,30 @@ class AddGroupForm extends Component {
                         formData.append(key,values[key]);
                     }
                 }
-            })
+            });
+            this.setState({
+                loading:true
+            });
             axios.postByMultipart("/plan/savePlan",formData)
                 .then(res=>{
                     message.success("添加成功!");
                     this.props.handelSuccess();
-                    console.log("handelSuccess execute ");
+                    this.setState({
+                        loading:false
+                    });
+                }).catch(err=>{
+                    console.error(err);
+                    this.setState({
+                        loading:false
+                    })
                 })
         });
-    }
+    };
 
     parseTag=(tagName)=>{
         const value = this.props.formObject[tagName+""];
         return util.isEmpty(value)||value===0?"":value+"";
-    }
+    };
 
     render(){
 
