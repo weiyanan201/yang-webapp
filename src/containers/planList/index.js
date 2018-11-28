@@ -1,14 +1,16 @@
 import React,{ PureComponent } from 'react';
-import { Table,Button,Modal, Divider  } from 'antd';
+import { Table,Button,Modal, Divider, message  } from 'antd';
 import { connect } from 'react-redux';
 import { actions } from '../../redux/plan.redux';
 
 import Search from './component/search';
 import AddPlanForm from './component/addPlanForm';
-
+import util from '../../util/util';
 import style from './style.less';
 import {SIZE_DEFAULT} from "../../config";
 import axios from "../../util/axios";
+
+const confirm = Modal.confirm;
 
 const NEW_TITLE = "新建教案";
 const UPDATE_TITLE = "修改教案";
@@ -20,6 +22,7 @@ const UPDATE_TITLE = "修改教案";
             total:state.getIn(["plan","total"]),
             tags:state.getIn(["plan","tags"]).toArray(),
             searchValue:state.getIn(["plan","searchValue"]),
+            role:state.getIn(["auth","role"])
         }
     }
     ,{
@@ -45,10 +48,8 @@ class PlanList extends PureComponent{
                     align: 'center',
                     render: (text, record) => (
                         <span>
-                            <a onClick={()=>this.modalToggle(true,UPDATE_TITLE,record)}>编辑</a>
-                            <Divider type="vertical" />
-                            <a >删除</a>
-                            <Divider type="vertical" />
+                            {util.isAdmin(this.props.role)?<span><a onClick={()=>this.modalToggle(true,UPDATE_TITLE,record)}>编辑</a><Divider type="vertical" /></span>:null}
+                            {util.isAdmin(this.props.role)?<span><a onClick={()=>{this.hanldeDelete(record.id,record.planName)}}>删除</a><Divider type="vertical" /></span>:null}
                             <a onClick={()=>this.handleDownload(record.id)} > 下载</a>
                         </span>
                     )
@@ -87,21 +88,43 @@ class PlanList extends PureComponent{
         this.props.searchQuery(this.props.searchValue,this.props.tags);
     };
 
-    //处理下载流程
-    handleDownload=(id)=>{
-        // axios.get("/plan/download",{id:id})
-        //     .then(res=>{
-        //         console.log(res);
-        //     }).catch(error=>{
-        //         console.error(error);
-        //     })
+    hanldeDelete = (id,planName)=>{
 
-        axios.download();
-
+        const _this = this;
+        confirm({
+            title: '删除确认',
+            autoFocusButton:"cancel",
+            content: `是否删除教案：${planName}`,
+            okText: '删除',
+            okType: 'danger',
+            cancelText: '取消',
+            onOk() {
+                axios.post("/plan/delete",{id:id})
+                    .then(res=>{
+                        message.success("删除成功");
+                        _this.props.searchQuery(_this.props.searchValue,_this.props.tags);
+                    })
+                    .catch(err=>{
+                        console.error(err);
+                        message.error("删除失败");
+                    })
+            }
+        });
 
     };
 
+    //处理下载流程
+    handleDownload=(id)=>{
+        axios.downloadByPost("/plan/download",{id:id})
+            .then(res=>{
+                message.success("开始下载");
+            }).catch(err=>{
+                console.log(err);
+            })
+    };
+
     render(){
+
         return(
             <div>
                 {/*search*/}
