@@ -43,6 +43,11 @@ module.exports = {
             require.resolve('./polyfills'),
             require.resolve('react-dev-utils/webpackHotDevClient'),
             paths.appSrc + '/login.js',
+        ],
+        detail:[
+            require.resolve('./polyfills'),
+            require.resolve('react-dev-utils/webpackHotDevClient'),
+            paths.appSrc + '/detail.js',
         ]
     },
 
@@ -267,6 +272,12 @@ module.exports = {
         chunks:["login"],
         template:paths.appHtml,
         filename:'login.html',
+    }),
+    new HtmlWebpackPlugin({
+        inject: true,
+        chunks: ["detail"],
+        template: paths.appHtml,
+        filename: 'detail.html',
     }),
 
     // Add module names to factory functions so they appear in browser profiler.

@@ -66,7 +66,12 @@ module.exports = {
             require.resolve('./polyfills'),
             require.resolve('react-dev-utils/webpackHotDevClient'),
             paths.appSrc + '/login.js',
-        ]
+        ],
+        detail: [
+            require.resolve('./polyfills'),
+            require.resolve('react-dev-utils/webpackHotDevClient'),
+            paths.appSrc + '/detail.js',
+        ],
     },
   output: {
     // The build folder.
@@ -314,6 +319,24 @@ module.exports = {
           chunks:["login"],
           template:paths.appHtml,
           filename:'login.html',
+          minify: {
+              removeComments: true,
+              collapseWhitespace: true,
+              removeRedundantAttributes: true,
+              useShortDoctype: true,
+              removeEmptyAttributes: true,
+              removeStyleLinkTypeAttributes: true,
+              keepClosingSlash: true,
+              minifyJS: true,
+              minifyCSS: true,
+              minifyURLs: true,
+          },
+      }),
+      new HtmlWebpackPlugin({
+          inject: true,
+          chunks:["detail"],
+          template:paths.appHtml,
+          filename:'detail.html',
           minify: {
               removeComments: true,
               collapseWhitespace: true,

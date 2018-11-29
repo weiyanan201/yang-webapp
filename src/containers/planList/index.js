@@ -51,6 +51,7 @@ class PlanList extends PureComponent{
                             {util.isAdmin(this.props.role)?<span><a onClick={()=>this.modalToggle(true,UPDATE_TITLE,record)}>编辑</a><Divider type="vertical" /></span>:null}
                             {util.isAdmin(this.props.role)?<span><a onClick={()=>{this.hanldeDelete(record.id,record.planName)}}>删除</a><Divider type="vertical" /></span>:null}
                             <a onClick={()=>this.handleDownload(record.id)} > 下载</a>
+                            <a href={`/detail?${record.id}`} target="_blank" > 预览</a>
                         </span>
                     )
                 }

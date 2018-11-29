@@ -12,7 +12,7 @@ import HomePage from '../containers/home';
 
 import style from './style.less';
 
-import Test from '../containers/testPage'
+import Test from '../containers/Test'
 
 const { Content } = Layout;
 
@@ -25,9 +25,7 @@ class MainContent extends React.Component{
                     <Switch>
                         <Route path="/" exact component={HomePage}/>
                         <Route path="/plan/list" exact component={PlanList}/>
-                        {/*<Route path="/table/groups/:groupId" exact component={TableList}/>*/}
-                        {/*<Route path="/table/groups/:groupId/:tableId" exact component={TableInfo}/>*/}
-                        <Route path="/test" exact component={Test}/>
+                        <Route path="/test" exact component={ Test }/>
                     </Switch>
                 </Content>
             </div>
