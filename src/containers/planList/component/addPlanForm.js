@@ -20,8 +20,9 @@ class AddGroupForm extends Component {
             loading:false,
             sourceDisabled:true,
             filePlan: [],
-            fileShow:[],
-            fileShowDir:'',
+            pptShow:[],
+            pptShowDir:'',
+            pdfShow:[],
             dirObject:[]
         };
     }
@@ -31,7 +32,7 @@ class AddGroupForm extends Component {
     }
 
     handleSubmit = ()=>{
-        const { filePlan,fileShow } = this.state;
+        const { filePlan,pptShow,pdfShow } = this.state;
         const formData = new FormData();
         let totalSize = 0;
         filePlan.forEach((file) => {
@@ -39,9 +40,13 @@ class AddGroupForm extends Component {
             totalSize += file.size;
             formData.append('planFile', file);
         });
-        fileShow.forEach((file) => {
+        pptShow.forEach((file) => {
             totalSize += file.size;
-            formData.append('planShow', file);
+            formData.append('pptShow', file);
+        });
+        pdfShow.forEach((file) => {
+            totalSize += file.size;
+            formData.append('pdfShow', file);
         });
         if (totalSize>UPLOAD_MAX_SIZE){
             message.error(UPLOAD_MAX_SIZE_TIP);
@@ -53,7 +58,7 @@ class AddGroupForm extends Component {
                 return;
             }
             Object.keys(values).map(key=>{
-                if (key!=="planFile" && key!=="planShow"){
+                if (key!=="planFile" && key!=="pptShow" && key!=="pdfShow"){
                     if (!util.isEmpty(values[key])){
                         formData.append(key,values[key]);
                     }
@@ -77,6 +82,17 @@ class AddGroupForm extends Component {
                 })
         });
     };
+
+    handleReset=()=>{
+        this.props.form.resetFields();
+        this.setState({
+            filePlan: [],
+            pptShow:[],
+            pptShowDir:'',
+            pdfShow:[],
+            dirObject:[]
+        });
+    }
 
     parseTag=(tagName)=>{
         const value = this.props.formObject[tagName+""];
@@ -103,15 +119,17 @@ class AddGroupForm extends Component {
                 return false;
             },
             filePlan: this.state.filePlan,
+            fileList: this.state.filePlan,
         };
 
-        const planShowDirProps = {
+        //上传ppt文件夹
+        const planShowPPTProps = {
             //清空
             onRemove: (file) => {
                 this.setState(({}) => {
                     return {
-                        fileShow: [],
-                        fileShowDir: '',
+                        pptShow: [],
+                        pptShowDir: '',
                         dirObject:[]
                     };
                 });
@@ -126,16 +144,38 @@ class AddGroupForm extends Component {
                     status: 'done',
                     // url: 'http://www.baidu.com/xxx.png',
                 }]
-                this.setState(({ fileShow }) => ({
-                    fileShow: [...fileShow, file],
-                    fileShowDir : dir,
+                this.setState(({ pptShow }) => ({
+                    pptShow: [...pptShow, file],
+                    pptShowDir : dir,
                     dirObject : dirObject
                 }));
                 return false;
             },
-            fileShow: this.state.fileShow,
+            pptShow: this.state.pptShow,
+            fileList: this.state.pptShow,
         };
 
+        //上传pdf文件
+        const planShowPDFProps = {
+            onRemove: (file) => {
+                this.setState(({ pdfShow }) => {
+                    const index = pdfShow.indexOf(file);
+                    const newFileList = pdfShow.slice();
+                    newFileList.splice(index, 1);
+                    return {
+                        pdfShow: newFileList,
+                    };
+                });
+            },
+            beforeUpload: (file) => {
+                this.setState(({ pdfShow }) => ({
+                    pdfShow: [...pdfShow, file],
+                }));
+                return false;
+            },
+            pdfShow: this.state.pdfShow,
+            fileList: this.state.pdfShow,
+        };
 
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
@@ -275,12 +315,12 @@ class AddGroupForm extends Component {
 
                     <FormItem
                         {...formItemLayout}
-                        label="上传ppt"
+                        label="上传教案"
                         disable={true}
                         type="hidden"
                     >
                         {getFieldDecorator('planFile',{
-                            // initialValue: `${util.isEmpty(this.props.info.appId)?"":this.props.info.appId}`
+
                         })(
                             <Upload {...planFileProps}>
                                 <Button disabled={this.state.filePlan.length>0}>
@@ -298,14 +338,29 @@ class AddGroupForm extends Component {
                         {getFieldDecorator('planShow',{
                             // initialValue: `${util.isEmpty(this.props.info.appId)?"":this.props.info.appId}`
                         })(
-                            <Upload {...planShowDirProps}
+                            <div>
+                            <Upload {...planShowPPTProps}
                                     directory
                                     fileList={this.state.dirObject}
                             >
-                                <Button disabled={this.state.fileShow.length>0}>
-                                    <Icon type="upload" /> 上传目录
+                                <Button disabled={this.state.pptShow.length>0 || this.state.pdfShow.length>0}>
+                                    <Icon type="upload" /> 上传ppt
                                 </Button>
+
+
                             </Upload>
+                                <Upload {...planShowPDFProps}
+                                        fileList={this.state.pdfShow}
+                                >
+                                    <Button disabled={this.state.pptShow.length>0 || this.state.pdfShow.length>0}>
+                                        <Icon type="upload" /> 上传pdf
+                                    </Button>
+
+
+                                </Upload>
+
+                            </div>
+
                         )}
 
                     </FormItem>
@@ -325,7 +380,7 @@ class AddGroupForm extends Component {
                     >提交
                     </Button>
                     <Button
-                            onClick={this.handleSubmit}
+                            onClick={this.handleReset}
                             className={style.formRightButton}
                     >重置
                     </Button>

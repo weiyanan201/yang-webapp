@@ -16,7 +16,7 @@ class Login extends Component {
         const _form = this.props.form;
         _form.validateFields((err, values) => {
             if (!err) {
-                const res = axios.post("/login",{userName:values.userName,password:values.password});
+                const res = axios.post("/checkLogin",{userName:values.userName,password:values.password});
                 res.then(res=>{
                     const data = res.data.data;
                     if (data.hasOwnProperty('token')){

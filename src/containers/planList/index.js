@@ -39,10 +39,12 @@ class PlanList extends PureComponent{
                     title: '教案名称',
                     dataIndex: 'planName',
                     align: 'center',
+                    width: '200px'
                 },{
                     title: '简介',
                     dataIndex: 'planDesc',
                     align: 'center',
+                    width: '800px'
                 },{
                     title: '操作',
                     align: 'center',
@@ -51,7 +53,8 @@ class PlanList extends PureComponent{
                             {util.isAdmin(this.props.role)?<span><a onClick={()=>this.modalToggle(true,UPDATE_TITLE,record)}>编辑</a><Divider type="vertical" /></span>:null}
                             {util.isAdmin(this.props.role)?<span><a onClick={()=>{this.hanldeDelete(record.id,record.planName)}}>删除</a><Divider type="vertical" /></span>:null}
                             <a onClick={()=>this.handleDownload(record.id)} > 下载</a>
-                            <a href={`/detail?${record.id}`} target="_blank" > 预览</a>
+                            <Divider type="vertical" />
+                            <a href={`/detail?id=${record.id}`} target="_blank" > 预览</a>
                         </span>
                     )
                 }
@@ -137,6 +140,7 @@ class PlanList extends PureComponent{
                     <Table columns={this.state.columns}
                            dataSource={this.props.tableList}
                            size="small"
+                           bordered
                            pagination={{
                                total:this.props.total,
                                pageSize:SIZE_DEFAULT,
