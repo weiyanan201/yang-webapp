@@ -189,10 +189,7 @@ class AddGroupForm extends Component {
             },
         };
 
-
         return (
-
-
 
             <div className={style.formWrapper}>
             <Spin spinning={this.state.loading}>

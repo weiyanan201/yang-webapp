@@ -1,13 +1,14 @@
 import React , { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { actions } from '../../../redux/plan.redux';
-import { Radio } from 'antd';
+import { Radio,Input } from 'antd';
 
 import { tagTheme,tagSubject,tagAge,tagCourse,tagScene,tagAll } from '../../../config';
 
 import style from '../style.less';
 
 const RadioGroup = Radio.Group;
+const Search = Input.Search;
 
 @connect(
     state=>{
@@ -22,7 +23,7 @@ const RadioGroup = Radio.Group;
         searchQuery : actions.searchQuery
     }
 )
-class Search extends PureComponent {
+class SearchComponent extends PureComponent {
 
     render(){
 
@@ -121,16 +122,24 @@ class Search extends PureComponent {
                         </RadioGroup>
                     </div>
 
-                    <div>
-                        <input type="text"  value={searchValue}
-                               className="form-control"
-                               onChange={(e)=>changeSearchValue(e.target.value)}
-                               placeholder="请输入查询信息" />
-                        <button className="btn back-green"
-                                onClick={()=>searchQuery(searchValue,this.props.tags)}
-                        >
-                            <span className="glyphicon glyphicon-search">查询</span>
-                        </button>
+                    <div className={style.searchButton}>
+                        {/*<input type="text"  value={searchValue}*/}
+                               {/*className="form-control"*/}
+                               {/*onChange={(e)=>changeSearchValue(e.target.value)}*/}
+                               {/*placeholder="请输入查询信息" />*/}
+                        {/*<button className="btn back-green"*/}
+                                {/*onClick={()=>searchQuery(searchValue,this.props.tags)}*/}
+                        {/*>*/}
+                            {/*<span className="glyphicon glyphicon-search">查询</span>*/}
+                        {/*</button>*/}
+                        <Search
+                            placeholder="请输入查询信息"
+                            onChange={(e)=>changeSearchValue(e.target.value)}
+                            enterButton
+                            onSearch={()=>searchQuery(searchValue,this.props.tags)}
+                            style={{width: 200}}
+                        />
+
                     </div>
 
                 </div>
@@ -139,7 +148,7 @@ class Search extends PureComponent {
     }
 }
 
-export default Search;
+export default SearchComponent;
 
 //
 // <SearchWrapper>

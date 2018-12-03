@@ -17,13 +17,14 @@ export const menus=[
         "route": "/plan/list",
         "bread": "教案库",
         "roles":[USER_TYPE.ADMIN,USER_TYPE.USER]
-    }, {
-        "id": 7,
-        "pid": 5,
-        "icon": "user-add",
-        "name": "教案管理",
-        "route": "/plan/manager",
-        "bread": "新建表",
-        "roles":[USER_TYPE.ADMIN,USER_TYPE.USER]
-    }
+    },
+    // {
+    //     "id": 7,
+    //     "pid": 5,
+    //     "icon": "user-add",
+    //     "name": "教案管理",
+    //     "route": "/plan/manager",
+    //     "bread": "新建表",
+    //     "roles":[USER_TYPE.ADMIN,USER_TYPE.USER]
+    // }
 ];

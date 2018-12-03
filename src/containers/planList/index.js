@@ -119,11 +119,26 @@ class PlanList extends PureComponent{
 
     //处理下载流程
     handleDownload=(id)=>{
-        axios.downloadByPost("/plan/download",{id:id})
+        // axios.downloadByPost("/plan/download",{id:id})
+        //     .then(res=>{
+        //         message.success("开始下载");
+        //     }).catch(err=>{
+        //         console.log(err);
+        //     })
+        axios.post("/plan/getFilePath",{id:id})
             .then(res=>{
-                message.success("开始下载");
+                const data = res.data.data;
+                if (util.isEmpty(data) || util.isEmpty(data.fileName) || util.isEmpty(data.path)){
+                    message.error("文件不存在!")
+                }
+                const aLink = document.createElement('a');
+                const evt = document.createEvent('MouseEvents');
+                evt.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+                aLink.download = data.fileName;
+                aLink.href = data.path;
+                aLink.dispatchEvent(evt)
             }).catch(err=>{
-                console.log(err);
+                message.error("下载失败!")
             })
     };
 
@@ -135,8 +150,19 @@ class PlanList extends PureComponent{
                 <Search className={style.searchWrapper} />
 
                 {/*content*/}
-                <Button onClick={()=>this.modalToggle(true)}>添加教案</Button>
                 <div className={style.listWrapper}>
+
+                    <div className={style.addPlanButton}>
+
+                        {
+                            util.isAdmin(this.props.role)?
+                                <Button onClick={() => this.modalToggle(true)} type="primary">
+                                    添加教案
+                                </Button>
+                             : null
+                        }
+                    </div>
+
                     <Table columns={this.state.columns}
                            dataSource={this.props.tableList}
                            size="small"
