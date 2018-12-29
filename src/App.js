@@ -1,3 +1,5 @@
+import 'babel-polyfill';
+
 import React  from 'react';
 import { Route, BrowserRouter as Router ,Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';

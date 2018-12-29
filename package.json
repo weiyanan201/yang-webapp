@@ -19,6 +19,7 @@
     "css-loader": "0.28.7",
     "dotenv": "4.0.0",
     "dotenv-expand": "4.2.0",
+    "dragact": "^0.2.12",
     "eslint": "4.10.0",
     "eslint-config-react-app": "^2.1.0",
     "eslint-loader": "1.9.0",
@@ -42,6 +43,7 @@
     "react": "^16.3.2",
     "react-dev-utils": "^5.0.1",
     "react-dom": "^16.3.2",
+    "react-json-tree": "^0.11.0",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.0",
@@ -116,6 +118,7 @@
   },
   "devDependencies": {
     "babel-plugin-import": "^1.7.0",
+    "babel-polyfill": "^6.26.0",
     "less": "^3.5.3",
     "less-loader": "^4.1.0"
   },
